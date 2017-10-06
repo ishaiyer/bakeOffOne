@@ -27,8 +27,8 @@ int numRepeats = 1; //sets the number of times each button repeats in the test
 
 void setup()
 {
-  //size(700, 700); // set the size of the window
-  fullScreen();
+  size(700, 700); // set the size of the window
+  //fullScreen();
   //noCursor(); //hides the system cursor if you want
   //noStroke(); //turn off all strokes, we're just using fills here (can change this if you want)
   textFont(createFont("Arial", 16)); //sets the font to Arial size 16
@@ -205,15 +205,13 @@ void mousePressed() // test to see if hit was in target!
   //mouseY = resetY;
   
   //in this example code, we move the mouse back to the middle
-  robot.mouseMove(resetX, resetY);
+  //robot.mouseMove(resetX, resetY);
 }  
 
 void mouseMoved()
 {
    //can do stuff everytime the mouse is moved (i.e., not clicked)
    //https://processing.org/reference/mouseMoved_.html
-   float dx = mouseX - pmouseX;
-   float dy = mouseY - pmouseY;
 }
 
 void mouseDragged()
@@ -229,6 +227,6 @@ void keyPressed()
   //https://processing.org/reference/keyCode.html
   
   //robot.mouseMove(center.x, center.y);
-  robot.mousePress(InputEvent.BUTTON1_MASK); //can use any key as a click
+  mousePressed();
   //robot.mouseRelease(InputEvent.BUTTON1_MASK);
 }

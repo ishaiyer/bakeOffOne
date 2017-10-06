@@ -27,8 +27,8 @@ int numRepeats = 1; //sets the number of times each button repeats in the test
 
 void setup()
 {
-  size(700, 700); // set the size of the window
-  //fullScreen();
+  //size(700, 700); // set the size of the window
+  fullScreen();
   //noCursor(); //hides the system cursor if you want
   //noStroke(); //turn off all strokes, we're just using fills here (can change this if you want)
   textFont(createFont("Arial", 16)); //sets the font to Arial size 16
@@ -83,9 +83,11 @@ void draw()
 
   for (int i = 0; i < 16; i++)// for all button
     drawButton(i); //draw button
-    
-  //fill(255, 0, 0, 200); // set fill color to translucent red
-  //ellipse(mouseX, mouseY, 50, 50); //draw user cursor as a circle with a diameter of 20
+  
+  if (mouseX == 355 && mouseY == 355) {
+    fill(255, 0, 0, 200); // set fill color to translucent red
+    ellipse(mouseX, mouseY, 30, 30); //draw user cursor as a circle with a diameter of 20
+  }
 }
 
 //probably shouldn't have to edit this method
@@ -205,7 +207,7 @@ void mousePressed() // test to see if hit was in target!
   //mouseY = resetY;
   
   //in this example code, we move the mouse back to the middle
-  //robot.mouseMove(resetX, resetY);
+  robot.mouseMove(355, 355);
 }  
 
 void mouseMoved()
