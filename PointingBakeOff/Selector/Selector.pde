@@ -23,12 +23,14 @@ Robot robot; //initalized in setup
 int resetX = 310;
 int resetY = 310;
 
+int selector = 5;
+
 int numRepeats = 1; //sets the number of times each button repeats in the test
 
 void setup()
 {
-  //size(700, 700); // set the size of the window
-  fullScreen();
+  size(700, 700); // set the size of the window
+  //fullScreen();
   //noCursor(); //hides the system cursor if you want
   //noStroke(); //turn off all strokes, we're just using fills here (can change this if you want)
   textFont(createFont("Arial", 16)); //sets the font to Arial size 16
@@ -147,8 +149,9 @@ void drawButton(int i)
 
   Rectangle marginBounds = getMarginButtonLocation(i);
 
-  if ((mouseX > marginBounds.x && mouseX < marginBounds.x + marginBounds.width) &&
-      (mouseY > marginBounds.y && mouseY < marginBounds.y + marginBounds.height)) // check to see if mouse is "on" box
+  //if ((mouseX > marginBounds.x && mouseX < marginBounds.x + marginBounds.width) &&
+  //    (mouseY > marginBounds.y && mouseY < marginBounds.y + marginBounds.height)) // check to see if mouse is "on" box
+  if (i == selector)
   {
     stroke(255, 150, 0); // highlight the box mouse is "on"
     strokeWeight(15);
@@ -205,16 +208,39 @@ void mousePressed() // test to see if hit was in target!
   //mouseY = resetY;
   
   //in this example code, we move the mouse back to the middle
-  robot.mouseMove(resetX, resetY);
+  //robot.mouseMove(resetX, resetY);
 }  
 
-void mouseMoved()
-{
-   //can do stuff everytime the mouse is moved (i.e., not clicked)
-   //https://processing.org/reference/mouseMoved_.html
-   float dx = mouseX - pmouseX;
-   float dy = mouseY - pmouseY;
-}
+//void mouseMoved()
+//{
+//   //can do stuff everytime the mouse is moved (i.e., not clicked)
+//   //https://processing.org/reference/mouseMoved_.html
+// float dx = mouseX - pmouseX;
+//   float dy = mouseY - pmouseY;
+//   if (dx > 50) { //mouse moved to right
+//     selector += 1;
+//     System.out.println("Moved right");
+//   }
+//   if (dy > 50) { //mouse moved down
+//     selector += 4;
+//     System.out.println("Moved down");
+//   }
+//   if (dx < -50) { //mouse moved to left
+//     selector -= 1;
+//     System.out.println("Moved left");
+//   }
+//   if (dy < -50) { //mouse moved up
+//     selector -= 4;
+//     System.out.println("Moved up");
+//   }
+//   if (selector > 15) {
+//     selector = 15; 
+//   }
+//   if (selector < 0) {
+//     selector = 0;
+//   }
+//   System.out.println("Selector = " + selector);  
+//}
 
 void mouseDragged()
 {
