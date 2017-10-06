@@ -145,7 +145,7 @@ void drawButton(int i)
   if (trials.get(trialNum) == i) // see if current button is the target
     fill(0, 255, 255); // if so, fill cyan
   else
-    fill(50); // if not, fill gray 200
+    fill(200); // if not, fill gray 200
 
   Rectangle marginBounds = getMarginButtonLocation(i);
 
