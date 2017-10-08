@@ -6,6 +6,7 @@ import java.awt.event.InputEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import processing.core.PApplet;
+import processing.sound.*;
 
 //when in doubt, consult the Processsing reference: https://processing.org/reference/
 
@@ -19,6 +20,8 @@ int finishTime = 0; //records the time of the final click
 int hits = 0; //number of successful clicks
 int misses = 0; //number of missed clicks
 Robot robot; //initalized in setup 
+SoundFile hit;
+SoundFile miss;
 
 int resetX = 310;
 int resetY = 310;
@@ -36,6 +39,8 @@ void setup()
   frameRate(60);
   ellipseMode(CENTER); //ellipses are drawn from the center (BUT RECTANGLES ARE NOT!)
   //rectMode(CENTER); //enabling will break the scaffold code, but you might find it easier to work with centered rects
+  hit = new SoundFile(this, "hit2.mp3");
+  miss = new SoundFile(this, "miss.wav");
 
   try {
     robot = new Robot(); //create a "Java Robot" class that can move the system cursor
@@ -214,11 +219,14 @@ void mousePressed() // test to see if hit was in target!
   {
     //System.out.println("HIT! " + trialNum + " " + (millis() - startTime)); // success
     hits++; 
+    // Load a soundfile from the /data folder of the sketch and play it back
+    hit.play();
   } 
   else
   {
     //System.out.println("MISSED! " + trialNum + " " + (millis() - startTime)); // fail
     misses++;
+    miss.play();
   }
 
   trialNum++; //Increment trial number
