@@ -29,7 +29,7 @@ void setup()
 {
   size(700, 700); // set the size of the window
   //fullScreen();
-  //noCursor(); //hides the system cursor if you want
+  noCursor(); //hides the system cursor if you want
   //noStroke(); //turn off all strokes, we're just using fills here (can change this if you want)
   textFont(createFont("Arial", 16)); //sets the font to Arial size 16
   textAlign(CENTER);
@@ -84,8 +84,8 @@ void draw()
   for (int i = 0; i < 16; i++)// for all button
     drawButton(i); //draw button
     
-  //fill(255, 0, 0, 200); // set fill color to translucent red
-  //ellipse(mouseX, mouseY, 50, 50); //draw user cursor as a circle with a diameter of 20
+  fill(0, 255, 255); // set fill color to cyan
+  ellipse(mouseX, mouseY, 20, 20); //draw user cursor as a circle with a diameter of 20
 }
 
 //probably shouldn't have to edit this method
@@ -149,11 +149,14 @@ void drawButton(int i)
       (mouseY > marginBounds.y && mouseY < marginBounds.y + marginBounds.height)) // check to see if mouse is "on" box
   {
     if (trials.get(trialNum) == i) { //outline in green if correct
-      stroke(124, 152, 0);
+      stroke(124, 200, 0);
+      strokeWeight(15);
     }
     else  //outline in orange if incorrect
+    {
       stroke(255, 150, 0); 
-    strokeWeight(14);
+      strokeWeight(5);
+    }
     rect(marginBounds.x, marginBounds.y, marginBounds.width, marginBounds.height);
   }
   else { //draw other buttons
@@ -168,7 +171,7 @@ void drawLine() { //draws a guideline to the button to click
   int destination = trials.get(trialNum);
   Point destinationCenter = getBoxCenter(destination);
   stroke(0, 255, 255);
-  strokeWeight(10);
+  strokeWeight(20);
   line(mouseX, mouseY, destinationCenter.x, destinationCenter.y);
 }
 
@@ -212,10 +215,6 @@ void mousePressed() // test to see if hit was in target!
 
   trialNum++; //Increment trial number
 
-  //reset mouse to top left center square
-  //mouseX = resetX;
-  //mouseY = resetY;
-  
   //in this example code, we move the mouse back to the middle
   //robot.mouseMove(resetX, resetY);
 }  
