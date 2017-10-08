@@ -173,6 +173,14 @@ void drawLine() { //draws a guideline to the button to click
   stroke(124, 200, 0);
   strokeWeight(2);
   line(mouseX, mouseY, destinationCenter.x, destinationCenter.y);
+  
+  if (trialNum < 15) {
+  int next = trials.get(trialNum+1);
+  Point nextCenter = getBoxCenter(next);
+  stroke(255);
+  strokeWeight(2);
+  line(destinationCenter.x, destinationCenter.y, nextCenter.x, nextCenter.y);
+  }
 }
 
 void mousePressed() // test to see if hit was in target!
