@@ -20,34 +20,20 @@ int finishTime = 0; //records the time of the final click
 int hits = 0; //number of successful clicks
 int misses = 0; //number of missed clicks
 Robot robot; //initalized in setup 
-SoundFile hit;
-SoundFile miss;
-
-int resetX = 310;
-int resetY = 310;
+SoundFile hit; //correct click sound effect
+SoundFile miss; //incorrect click sound effect
 
 int numRepeats = 1; //sets the number of times each button repeats in the test
 
 void setup()
 {
   size(700, 700); // set the size of the window
-  //fullScreen();
-  //noCursor(); //hides the system cursor if you want
-  //noStroke(); //turn off all strokes, we're just using fills here (can change this if you want)
   textFont(createFont("Arial", 16)); //sets the font to Arial size 16
   textAlign(CENTER);
   frameRate(60);
   ellipseMode(CENTER); //ellipses are drawn from the center (BUT RECTANGLES ARE NOT!)
-  //rectMode(CENTER); //enabling will break the scaffold code, but you might find it easier to work with centered rects
   hit = new SoundFile(this, "hit2.mp3");
   miss = new SoundFile(this, "miss.wav");
-
-  try {
-    robot = new Robot(); //create a "Java Robot" class that can move the system cursor
-  } 
-  catch (AWTException e) {
-    e.printStackTrace();
-  }
 
   //===DON'T MODIFY MY RANDOM ORDERING CODE==
   for (int i = 0; i < 16; i++) //generate list of targets and randomize the order
@@ -58,8 +44,6 @@ void setup()
 
   Collections.shuffle(trials); // randomize the order of the buttons
   System.out.println("trial order: " + trials);
-  
-  frame.setLocation(0,0); // put window in top left corner of screen (doesn't always work)
 }
 
 
@@ -88,9 +72,7 @@ void draw()
 
   for (int i = 0; i < 16; i++)// for all button
     drawButton(i); //draw button
-    
-  fill(0, 255, 255); // set fill color to cyan
-  //ellipse(mouseX, mouseY, 20, 20); //draw user cursor as a circle with a diameter of 20
+  drawLine();
 }
 
 //probably shouldn't have to edit this method
@@ -120,7 +102,7 @@ int getClosestBox() //returns closest box to current mouseX, mouseY
 {
   int backup = 0;
   
-  //this is a really slow placeholder check until I figure out how to math
+  //a slow way to check but I don't know how to do row/col math
   for (int i = 0; i < 16; i++) // for all button
   {
     Rectangle bounds = getMarginButtonLocation(i);
@@ -129,10 +111,6 @@ int getClosestBox() //returns closest box to current mouseX, mouseY
       return i; //return the closest box's ID
   }
   return backup;
-  /*
-  int row = (int)((float)mouseY / height) * 4;
-  int col = (int)((float)mouseX / width) * 4;
-  */
 }
 
 //you can edit this method to change how buttons appear
@@ -144,32 +122,28 @@ void drawButton(int i)
   if (trials.get(trialNum) == i) // see if current button is the target
   { 
     fill(0, 255, 255); // if so, fill cyan
-    stroke(124, 252, 0);
   }
   else
     fill(200); // if not, fill gray 200
 
-  // enlarge and outline the box mouse is "on"
+  //outline the box mouse is "on"
   if ((mouseX > marginBounds.x && mouseX < marginBounds.x + marginBounds.width) &&
       (mouseY > marginBounds.y && mouseY < marginBounds.y + marginBounds.height)) // check to see if mouse is "on" box
   {
+    strokeWeight(15);
     if (trials.get(trialNum) == i) { //outline in green if correct
       stroke(124, 200, 0);
-      strokeWeight(15);
     }
     else  //outline in orange if incorrect
     {
       stroke(255, 150, 0); 
-      strokeWeight(15);
     }
-    rect(bounds.x, bounds.y, bounds.width, bounds.height);
+    rect(bounds.x, bounds.y, bounds.width, bounds.height); //draw button;
   }
   else { //draw other buttons
     noStroke();
     rect(bounds.x, bounds.y, bounds.width, bounds.height);
   }
-  
-  drawLine();
 }
 
 void drawLine() { //draws a guideline to the button to click
@@ -179,7 +153,8 @@ void drawLine() { //draws a guideline to the button to click
   strokeWeight(2);
   line(mouseX, mouseY, destinationCenter.x, destinationCenter.y);
   
-  if (trialNum < 15) {
+  //draw guideline to next button as well
+  if (trialNum < trials.size()-1) {
   int next = trials.get(trialNum+1);
   Point nextCenter = getBoxCenter(next);
   stroke(255);
@@ -190,9 +165,6 @@ void drawLine() { //draws a guideline to the button to click
 
 void mousePressed() // test to see if hit was in target!
 {
-  //System.out.println("X: " + mouseX);
-  //System.out.println("Y: " + mouseY);
-  
   if (trialNum >= trials.size()) //if task is over, just return
     return;
 
@@ -219,7 +191,6 @@ void mousePressed() // test to see if hit was in target!
   {
     //System.out.println("HIT! " + trialNum + " " + (millis() - startTime)); // success
     hits++; 
-    // Load a soundfile from the /data folder of the sketch and play it back
     hit.play();
   } 
   else
@@ -230,30 +201,9 @@ void mousePressed() // test to see if hit was in target!
   }
 
   trialNum++; //Increment trial number
-
-  //in this example code, we move the mouse back to the middle
-  //robot.mouseMove(resetX, resetY);
 }  
-
-void mouseMoved()
-{
-   //can do stuff everytime the mouse is moved (i.e., not clicked)
-   //https://processing.org/reference/mouseMoved_.html
-}
-
-void mouseDragged()
-{
-  //can do stuff everytime the mouse is dragged
-  //https://processing.org/reference/mouseDragged_.html
-}
 
 void keyPressed() 
 {
-  //can use the keyboard if you wish
-  //https://processing.org/reference/keyTyped_.html
-  //https://processing.org/reference/keyCode.html
-  
-  //robot.mouseMove(center.x, center.y);
   mousePressed();
-  //robot.mouseRelease(InputEvent.BUTTON1_MASK);
 }
