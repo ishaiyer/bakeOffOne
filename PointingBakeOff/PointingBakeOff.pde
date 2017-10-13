@@ -19,11 +19,16 @@ int startTime = 0; // time starts when the first click is captured
 int finishTime = 0; //records the time of the final click
 int hits = 0; //number of successful clicks
 int misses = 0; //number of missed clicks
-Robot robot; //initalized in setup 
 SoundFile hit; //correct click sound effect
 SoundFile miss; //incorrect click sound effect
 
-int numRepeats = 1; //sets the number of times each button repeats in the test
+String name = "Your Name Here";
+int startX = mouseX;
+int startY = mouseY;
+int nextStartTime;
+boolean hitTracker;
+
+int numRepeats = 20; //sets the number of times each button repeats in the test
 
 void setup()
 {
@@ -44,6 +49,17 @@ void setup()
 
   Collections.shuffle(trials); // randomize the order of the buttons
   System.out.println("trial order: " + trials);
+  
+  //Header Labels for Measuring Index of Performance
+  System.out.print("Trial #\t");
+  System.out.print("Participant ID\t");
+  System.out.print("Start X\t");
+  System.out.print("Start Y\t");
+  System.out.print("Target X\t");
+  System.out.print("Target Y\t");
+  System.out.print("Width\t");
+  System.out.print("Time\t");
+  System.out.println("Hit\t");
 }
 
 
@@ -169,7 +185,10 @@ void mousePressed() // test to see if hit was in target!
     return;
 
   if (trialNum == 0) //check if first click, if so, start timer
+  {
     startTime = millis();
+    nextStartTime = millis();
+  }
 
   if (trialNum == trials.size() - 1) //check if final click
   {
@@ -191,15 +210,33 @@ void mousePressed() // test to see if hit was in target!
   {
     //System.out.println("HIT! " + trialNum + " " + (millis() - startTime)); // success
     hits++; 
+    hitTracker = true;
     hit.play();
   } 
   else
   {
     //System.out.println("MISSED! " + trialNum + " " + (millis() - startTime)); // fail
     misses++;
+    hitTracker = false;
     miss.play();
   }
-
+  
+  float moveTime = (millis()-nextStartTime) / 1000f;
+  
+  System.out.print(trialNum + "\t");
+  System.out.print(name + "\t");
+  System.out.print(startX + "\t");
+  System.out.print(startY + "\t");
+  System.out.print((getBoxCenter(trials.get(trialNum)).x) + "\t");
+  System.out.print((getBoxCenter(trials.get(trialNum)).y) + "\t");
+  System.out.print(40 + "\t");
+  System.out.print(moveTime + "\t");
+  System.out.print(hitTracker);
+  System.out.println();
+  
+  nextStartTime = millis();
+  startX = mouseX;
+  startY = mouseY;
   trialNum++; //Increment trial number
 }  
 
